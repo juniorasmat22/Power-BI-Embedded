@@ -19,5 +19,21 @@ namespace POWERBI.Controllers
             ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetReportEmbeddingData(); 
             return View(embeddingData); 
         }
+        public async Task<ActionResult> Dashboard() { 
+            DashboardEmbeddingData embeddingData = await PbiEmbeddedManager.GetDashboardEmbeddingData();
+            return View(embeddingData); 
+        }
+        public async Task<ActionResult> Qna() {
+            QnaEmbeddingData embeddingData = await PbiEmbeddedManager.GetQnaEmbeddingData(); 
+            return View(embeddingData);
+        }
+        public async Task<ActionResult> NewReport() { 
+            NewReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetNewReportEmbeddingData(); 
+            return View(embeddingData); 
+        }
+        public async Task<ActionResult> Reports(string reportId) { 
+            ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetEmbeddingDataForReport(reportId); 
+            return View(embeddingData); 
+        }
     }
 }
