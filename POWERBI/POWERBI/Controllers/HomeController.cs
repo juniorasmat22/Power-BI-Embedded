@@ -15,9 +15,11 @@ namespace POWERBI.Controllers
         {
             return View();
         }
-        public async Task<ActionResult> Report() { 
-            ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetReportEmbeddingData(); 
-            return View(embeddingData); 
+        public async Task<ActionResult> Report() {
+            
+          ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetReportEmbeddingData();
+          return View(embeddingData);
+            
         }
         public async Task<ActionResult> Dashboard() { 
             DashboardEmbeddingData embeddingData = await PbiEmbeddedManager.GetDashboardEmbeddingData();

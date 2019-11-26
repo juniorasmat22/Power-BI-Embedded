@@ -16,22 +16,51 @@
                     @Html.ActionLink("COAR-LA LIBERTAD", "Index", "Home",
                                       routeValues: null, htmlAttributes: new { @class = "nav-link navbar-brand" })
                 </li>
-                <li class="nav-item">
-                    @Html.ActionLink("REPORTES", "Report", "Home",
-                                     routeValues: null, htmlAttributes: new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("DASHBOARD", "Dashboard", "Home",
-                                     routeValues: null, htmlAttributes: new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
+                @{
+                    if (Session["user"] != null)
+                    {
+
+                        <li class="nav-item">
+                            @Html.ActionLink("REPORTES", "Report", "Home",
+                                             routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("DASHBOARD", "Dashboard", "Home",
+                                             routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+                        @*<li class="nav-item">
                     @Html.ActionLink("Q&A", "Qna", "Home",
                                      routeValues: null, htmlAttributes: new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("NUEVO REPORTE", "NewReport", "Home",
-                                     routeValues: null, htmlAttributes: new { @class = "nav-link" })
-                </li>
+                </li>*@
+                        <li class="nav-item">
+                            @Html.ActionLink("NUEVO REPORTE", "NewReport", "Home",
+                                             routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+                    }
+                }
+
+                @{
+                    if (Session["user"] != null)
+                    {
+                        <li class="nav-item nav-link">
+                            @Session["user"]
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("CERAR SESION", "Cerrar", "Login",
+                                             routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+                    }
+                    else
+                    {
+
+                        <li class="nav-item">
+                            @Html.ActionLink("INICIAR SESIÓN", "Login", "Login",
+                                             routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+
+                    }
+                }
+
             </ul>
         </nav>
         @RenderSection("toolbar", required: false)

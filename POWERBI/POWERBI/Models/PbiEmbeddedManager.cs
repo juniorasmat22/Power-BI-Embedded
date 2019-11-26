@@ -5,6 +5,7 @@ using Microsoft.Rest;
 using Microsoft.PowerBI.Api.V2;
 using Microsoft.PowerBI.Api.V2.Models;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.Web;
 
 namespace POWERBI.Models
 {
@@ -17,9 +18,11 @@ namespace POWERBI.Models
         private static string workspaceId = ConfigurationManager.AppSettings["app-workspace-id"];
         private static string datasetId = ConfigurationManager.AppSettings["dataset-id"]; 
         private static string reportId = ConfigurationManager.AppSettings["report-id"];
-        private static string dashboardId = ConfigurationManager.AppSettings["dashboard-id"]; 
-        private static string userName = ConfigurationManager.AppSettings["aad-account-name"]; 
-        private static string userPassword = ConfigurationManager.AppSettings["aad-account-password"];
+        private static string dashboardId = ConfigurationManager.AppSettings["dashboard-id"];
+        private static string userPassword = (String)HttpContext.Current.Session["pass"];
+        private static string userName = (String)HttpContext.Current.Session["user"]; 
+        
+
 
         private static string GetAccessToken() {
             AuthenticationContext authenticationContext = new AuthenticationContext(aadAuthorizationEndpoint); 

@@ -5,6 +5,12 @@ using System.Web;
 
 namespace POWERBI.Models
 {
+    public class Login
+    {
+        public string user { set; get; }
+        public string pass { set; get; }
+
+    }
     // data required for embedding a report
     public class ReportEmbeddingData {
         public string reportId; 
