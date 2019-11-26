@@ -36,14 +36,14 @@ namespace POWERBI.Models
             var tokenCredentials = new TokenCredentials(GetAccessToken(), "Bearer");
             return new PowerBIClient(new Uri(urlPowerBiRestApiRoot), tokenCredentials); 
         }
-        public static async Task<ReportEmbeddingData> GetReportEmbeddingData() { 
+        public static async Task<ReportEmbeddingData> GetReportEmbeddingData(String report_id) { 
             PowerBIClient pbiClient = GetPowerBiClient(); 
-            var report = await pbiClient.Reports.GetReportInGroupAsync(workspaceId, reportId); 
+            var report = await pbiClient.Reports.GetReportInGroupAsync(workspaceId, report_id); 
             var embedUrl = report.EmbedUrl; 
             var reportName = report.Name; 
             GenerateTokenRequest generateTokenRequestParameters =  new GenerateTokenRequest(accessLevel: "edit"); 
             string embedToken = (await pbiClient.Reports.GenerateTokenInGroupAsync(workspaceId, report.Id, generateTokenRequestParameters)).Token; 
-            return new ReportEmbeddingData { reportId = reportId, reportName = reportName, embedUrl = embedUrl, accessToken = embedToken }; 
+            return new ReportEmbeddingData { reportId = report_id, reportName = reportName, embedUrl = embedUrl, accessToken = embedToken }; 
         }
         public static async Task<DashboardEmbeddingData> GetDashboardEmbeddingData() { 
             PowerBIClient pbiClient = GetPowerBiClient(); 

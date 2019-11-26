@@ -11,6 +11,17 @@ namespace POWERBI.Models
         public string pass { set; get; }
 
     }
+    public class reporte
+    {
+        public string reportId { set; get; }
+        public string reportName { set; get; }
+
+        public reporte(string reportId, string reportName)
+        {
+            this.reportId = reportId;
+            this.reportName = reportName;
+        }
+    }
     // data required for embedding a report
     public class ReportEmbeddingData {
         public string reportId; 

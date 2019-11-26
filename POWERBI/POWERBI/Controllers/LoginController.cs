@@ -32,7 +32,7 @@ namespace POWERBI.Controllers
             comando.CommandText = "Select * from Usuario where usuario='"+login.user+ "' and pass='" + login.pass + "'";
             dr = comando.ExecuteReader();
             if (dr.Read()){
-                
+                Session["id"] = dr.GetInt32(0);
                 Session["user"] = dr.GetString(1);
                 Session["pass"] = dr.GetString(2);
                 con.Close();

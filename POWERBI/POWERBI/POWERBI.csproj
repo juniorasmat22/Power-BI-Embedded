@@ -236,6 +236,7 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\Validar.cshtml" />
+    <Content Include="Views\Home\Reportes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
