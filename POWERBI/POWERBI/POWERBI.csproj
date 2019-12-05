@@ -239,6 +239,8 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\Validar.cshtml" />
     <Content Include="Views\Home\Reportes.cshtml" />
+    <Content Include="Views\Home\Dataset.cshtml" />
+    <Content Include="Views\Home\lista_Dashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -16,11 +16,12 @@ namespace POWERBI.Models
         private static string urlPowerBiRestApiRoot = "https://api.powerbi.com/"; 
         private static string applicationId = ConfigurationManager.AppSettings["application-id"];
         private static string workspaceId = ConfigurationManager.AppSettings["app-workspace-id"];
-        private static string datasetId = ConfigurationManager.AppSettings["dataset-id"]; 
-        private static string reportId = ConfigurationManager.AppSettings["report-id"];
-        private static string dashboardId = ConfigurationManager.AppSettings["dashboard-id"];
+       // private static string datasetId = ConfigurationManager.AppSettings["dataset-id"]; 
+        //private static string reportId = ConfigurationManager.AppSettings["report-id"];
+        //private static string dashboardId = ConfigurationManager.AppSettings["dashboard-id"];
         private static string userPassword = (String)HttpContext.Current.Session["pass"];
         private static string userName = (String)HttpContext.Current.Session["user"]; 
+
         
 
 
@@ -45,19 +46,21 @@ namespace POWERBI.Models
             string embedToken = (await pbiClient.Reports.GenerateTokenInGroupAsync(workspaceId, report.Id, generateTokenRequestParameters)).Token; 
             return new ReportEmbeddingData { reportId = report_id, reportName = reportName, embedUrl = embedUrl, accessToken = embedToken }; 
         }
-        public static async Task<DashboardEmbeddingData> GetDashboardEmbeddingData() { 
+        public static async Task<DashboardEmbeddingData> GetDashboardEmbeddingData(string dash_id) { 
             PowerBIClient pbiClient = GetPowerBiClient(); 
-            var dashboard = await pbiClient.Dashboards.GetDashboardInGroupAsync(workspaceId, dashboardId); var embedUrl = dashboard.EmbedUrl; 
+            var dashboard = await pbiClient.Dashboards.GetDashboardInGroupAsync(workspaceId, dash_id);
+            var embedUrl = dashboard.EmbedUrl; 
             var dashboardDisplayName = dashboard.DisplayName;
-            GenerateTokenRequest generateTokenRequestParameters = new GenerateTokenRequest(accessLevel: "view"); string embedToken = (await pbiClient.Dashboards.GenerateTokenInGroupAsync(workspaceId, dashboardId, generateTokenRequestParameters)).Token;
+            GenerateTokenRequest generateTokenRequestParameters = new GenerateTokenRequest(accessLevel: "view"); 
+            string embedToken = (await pbiClient.Dashboards.GenerateTokenInGroupAsync(workspaceId, dash_id, generateTokenRequestParameters)).Token;
             return new DashboardEmbeddingData {
-                dashboardId = dashboardId,
+                dashboardId = dash_id,
                 dashboardName = dashboardDisplayName, 
                 embedUrl = embedUrl,
                 accessToken = embedToken 
             }; 
         }
-        public async static Task<QnaEmbeddingData> GetQnaEmbeddingData() { 
+       /* public async static Task<QnaEmbeddingData> GetQnaEmbeddingData() { 
             PowerBIClient pbiClient = GetPowerBiClient();
             var dataset = await pbiClient.Datasets.GetDatasetByIdInGroupAsync(workspaceId, datasetId); 
             string embedUrl = "https://app.powerbi.com/qnaEmbed?groupId=" + workspaceId; 
@@ -69,15 +72,15 @@ namespace POWERBI.Models
                 embedUrl = embedUrl, 
                 accessToken = embedToken
             };
-        }
-        public static async Task<NewReportEmbeddingData> GetNewReportEmbeddingData() {
+        }*/
+        public static async Task<NewReportEmbeddingData> GetNewReportEmbeddingData(String data_id) {
             string embedUrl = "https://app.powerbi.com/reportEmbed?groupId=" + workspaceId; 
             PowerBIClient pbiClient = GetPowerBiClient();
-            GenerateTokenRequest generateTokenRequestParameters = new GenerateTokenRequest(accessLevel: "create", datasetId: datasetId); 
+            GenerateTokenRequest generateTokenRequestParameters = new GenerateTokenRequest(accessLevel: "create", datasetId: data_id); 
             string embedToken = (await pbiClient.Reports.GenerateTokenForCreateInGroupAsync(workspaceId, generateTokenRequestParameters)).Token;
             return new NewReportEmbeddingData { 
                 workspaceId = workspaceId, 
-                datasetId = datasetId, 
+                datasetId = data_id, 
                 embedUrl = embedUrl,
                 accessToken = embedToken
             }; 

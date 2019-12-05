@@ -1,0 +1,38 @@
+﻿
+@model List<POWERBI.Models.dataSet>
+<div id="embedContainer">
+
+    <div style="padding-left:20px;" class="justify-content-center">
+        <h2>Conjuntos de Datos disponibles</h2>
+
+        <table class="table table-bordered table-hover d-table-cell table-responsive">
+
+            <thead>
+            <td>N°</td>
+            <td>Nombre del Dataset</td>
+            <td>Id del Dataset</td>
+            <td>Opciones</td>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@item.codigo</td>
+                    <td>@item.nombre</td>
+                    <td>@item.id</td>
+                    <td>
+                        <form action="NewReport" method="post">
+                            <input type="hidden" name="datasetId" value="@item.id" />
+                            <button class="btn btn-xs btn-primary" role="button" type="submit">
+                                <i class="glyphicon glyphicon-credit-card"></i> <span>Ver</span>
+                            </button>
+
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

@@ -22,6 +22,30 @@ namespace POWERBI.Models
             this.reportName = reportName;
         }
     }
+    public class dataSet
+    {
+        public int codigo { set; get; }
+        public string id { set; get; }
+        public string nombre { set; get; }
+        public dataSet(int codigo, string id,string nombre)
+        {
+            this.codigo = codigo;
+            this.id = id;
+            this.nombre = nombre;
+        }
+
+
+    }
+    public class dashboard
+    {
+        public string id { set; get; }
+        public string nombre { set; get; }
+        public dashboard(string id, string nombre)
+        {
+             this.id = id;
+            this.nombre = nombre;
+        }
+    }
     // data required for embedding a report
     public class ReportEmbeddingData {
         public string reportId; 

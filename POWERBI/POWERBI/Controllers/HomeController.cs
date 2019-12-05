@@ -20,10 +20,7 @@ namespace POWERBI.Controllers
         {
             return View();
         }
-        void conexionString()
-        {
-            con.ConnectionString = "data source=DESKTOP-KKF85CV; database=bi;Integrated Security=True";
-        }
+    
         public ActionResult Reportes()
         {
             String conexion = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
@@ -39,7 +36,47 @@ namespace POWERBI.Controllers
             {
                 reporte.Add(new Models.reporte(dr.GetString(0), dr.GetString(1)));
             }
+            con.Close();
+            //ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetReportEmbeddingData();
+            return View(reporte);
 
+        }
+        public ActionResult Dataset()
+        {
+            String conexion = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            con.ConnectionString = conexion;
+            con.Open();
+            comando.Connection = con;
+            comando.CommandText = "Select d.dataset_codigo,d.nombre,d.dataset_id from dataset_usuario du " +
+                "inner join Dataset d on d.dataset_codigo = du.dataset_codigo" +
+                " where du.id_usuario=" + HttpContext.Session["id"];
+            dr = comando.ExecuteReader();
+            List<dataSet> reporte = new List<dataSet>();
+            while (dr.Read())
+            {
+                reporte.Add(new Models.dataSet(dr.GetInt32(0), dr.GetString(2), dr.GetString(1)));
+            }
+            con.Close();
+            //ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetReportEmbeddingData();
+            return View(reporte);
+
+        }
+        public ActionResult lista_Dashboard()
+        {
+            String conexion = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            con.ConnectionString = conexion;
+            con.Open();
+            comando.Connection = con;
+            comando.CommandText = "Select d.das_id ,d.nombre from usuario_dashboard ud " +
+                "inner join Dashboard d on d.das_id = ud.id_das" +
+                " where ud.id_usuario=" + HttpContext.Session["id"];
+            dr = comando.ExecuteReader();
+            List<dashboard> reporte = new List<dashboard>();
+            while (dr.Read())
+            {
+                reporte.Add(new Models.dashboard( dr.GetString(0), dr.GetString(1)));
+            }
+            con.Close();
             //ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetReportEmbeddingData();
             return View(reporte);
 
@@ -51,20 +88,29 @@ namespace POWERBI.Controllers
           return View(embeddingData);
             
         }
-        public async Task<ActionResult> Dashboard() { 
-            DashboardEmbeddingData embeddingData = await PbiEmbeddedManager.GetDashboardEmbeddingData();
+        public async Task<ActionResult> Dashboard(string DashboardID) { 
+            DashboardEmbeddingData embeddingData = await PbiEmbeddedManager.GetDashboardEmbeddingData(DashboardID);
             return View(embeddingData); 
         }
-        public async Task<ActionResult> Qna() {
+       /* public async Task<ActionResult> Qna() {
             QnaEmbeddingData embeddingData = await PbiEmbeddedManager.GetQnaEmbeddingData(); 
             return View(embeddingData);
-        }
-        public async Task<ActionResult> NewReport() { 
-            NewReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetNewReportEmbeddingData(); 
+        }*/
+
+        public async Task<ActionResult> NewReport(string datasetId) { 
+            NewReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetNewReportEmbeddingData(datasetId); 
             return View(embeddingData); 
         }
         public async Task<ActionResult> Reports(string reportId) { 
-            ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetEmbeddingDataForReport(reportId); 
+            ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetEmbeddingDataForReport(reportId);
+            String conexion = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            con.ConnectionString = conexion;
+            con.Open();
+            comando.Connection = con;
+            comando.CommandText = "Insert into Reporte values ('" + embeddingData.reportId + "','" + embeddingData.reportName + "')";
+            comando.ExecuteNonQuery();
+            comando.CommandText = "Insert into usuario_reporte values (" + HttpContext.Session["id"] + ",'" + embeddingData.reportId + "')";
+            comando.ExecuteNonQuery();
             return View(embeddingData); 
         }
     }
