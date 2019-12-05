@@ -153,6 +153,7 @@
     <Content Include="Global.asax" />
     <Content Include="Plantilla\css\font-awesome.min.css" />
     <Content Include="Plantilla\css\style.css" />
+    <Content Include="Plantilla\images\coar.jpg" />
     <Content Include="Plantilla\images\image.jpg" />
     <Content Include="Plantilla\images\tick.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -182,6 +183,7 @@
     <Content Include="Plantilla\fonts\fontawesome-webfont.woff" />
     <Content Include="Plantilla\fonts\fontawesome-webfont.woff2" />
     <Content Include="Plantilla\fonts\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\coar - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

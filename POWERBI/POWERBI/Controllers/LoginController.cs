@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -26,7 +27,8 @@ namespace POWERBI.Controllers
         [HttpPost]
         public ActionResult Validar(Login login)
         {
-            conexionString();
+            String conexion = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            con.ConnectionString = conexion;
             con.Open();
             comando.Connection = con;
             comando.CommandText = "Select * from Usuario where usuario='"+login.user+ "' and pass='" + login.pass + "'";

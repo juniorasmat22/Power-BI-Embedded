@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,15 +26,18 @@ namespace POWERBI.Controllers
         }
         public ActionResult Reportes()
         {
-            conexionString();
+            String conexion = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            con.ConnectionString = conexion;
             con.Open();
             comando.Connection = con;
-            comando.CommandText = "Select * from usuario_reporte where id_usuario=" + HttpContext.Session["id"];
+            comando.CommandText = "Select ru.id_reporte,r.nombre from usuario_reporte ru " +
+                "inner join Reporte r on r.Repor_id = ru.id_reporte" +
+                " where ru.id_usuario=" + HttpContext.Session["id"];
             dr = comando.ExecuteReader();
             List<reporte> reporte = new List<reporte>();
             while (dr.Read())
             {
-                reporte.Add(new Models.reporte(dr.GetString(1), dr.GetString(1)));
+                reporte.Add(new Models.reporte(dr.GetString(0), dr.GetString(1)));
             }
 
             //ReportEmbeddingData embeddingData = await PbiEmbeddedManager.GetReportEmbeddingData();
